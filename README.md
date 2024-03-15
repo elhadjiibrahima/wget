@@ -24,7 +24,7 @@ Usage
 
 Your program must have as arguments the link from where you want to download the file, for instance:
 
-$ go run . https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 
 The program should be able to give feedback, displaying the:
 
@@ -40,7 +40,7 @@ The program should be able to give feedback, displaying the:
 
 It should look something like this
 
-$ go run . https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 start at 2017-10-14 03:46:06
 sending request, awaiting response... status 200 OK
 content size: 56370 [~0.06MB]
@@ -56,7 +56,7 @@ Your program should be able to handle different flags.
 
     The flag -B should be handled, this flag should download a file immediately to the background and the output should be redirected to a log file. When the program containing this flag is executed it should output : Output will be written to "wget-log". Example:
 
-$ go run . -B https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/-B https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 Output will be written to "wget-log".
 $ cat wget-log
 start at 2017-10-14 03:46:06
@@ -69,7 +69,7 @@ $
 
     Download a file and save it under a different name by using the flag -O followed by the name you wish to save the file, example:
 
-$ go run . -O=meme.jpg https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/-O=meme.jpg https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 start at 2017-10-14 03:46:06
 sending request, awaiting response... status 200 OK
 content size: 56370 [~0.06MB]
@@ -84,7 +84,7 @@ $ ls -l
 
     It should also handle the path to where your file is going to be saved using the flag -P followed by the path to where you want to save the file, example:
 
-$ go run . -P=~/Downloads/ -O=meme.jpg https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/-P=~/Downloads/ -O=meme.jpg https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 start at 2017-10-14 03:46:06
 sending request, awaiting response... status 200 OK
 content size: 56370 [~0.06MB]
@@ -98,7 +98,7 @@ $ ls -l ~/Downloads/meme.jpg
 
     The program should handle speed limit. Basically the program can control the speed of the download by using the flag --rate-limit. If you download a huge file you can limit the speed of your download, preventing the program from using the full possible bandwidth of your connection, example:
 
-$ go run . --rate-limit=400k https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/--rate-limit=400k https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 
 This flag should accept different value types, example: k and M. So you can put the rate limit as rate-limit=200k or rate-limit=2M
 
@@ -132,7 +132,7 @@ Those flags will work based on Follow links. The command wget has several mechan
 
 example:
 
-$ go run . --mirror -R=jpg,gif https://example.com
+$ go run ./cmd/--mirror -R=jpg,gif https://example.com
 
     Directory-Based Limits (--exclude short hand -X)
 
@@ -140,22 +140,22 @@ $ go run . --mirror -R=jpg,gif https://example.com
 
 example:
 
-$ go run . --mirror -X=/assets,/css https://example.com
+$ go run ./cmd/--mirror -X=/assets,/css https://example.com
 
 
 Installation
-To install wget-rust, follow the steps below:
+To install wget, follow the steps below:
 
 Clone the repository:
 
 sh
 Copy code
-git clone https://github.com/your-username/wget-rust.git
+git clone https://learn.zone01dakar.sn/your-username/wget.git
 Navigate to the project directory:
 
 sh
 Copy code
-cd wget-rust
+cd wget
 Build the project:
 
 sh
@@ -168,7 +168,7 @@ Copy code
 ./target/release/wget-rust --help
 
 ## Contributers
-- mfaris (Mohammed Faris)
-- [sahmedG](https://github.com/sahmedG) (Sameer Goumaa)
-- [MSK17A](https://github.com/MSK17A) (Mohammed Alsammak)
-- [akhaled01](https://github.com/akhaled01) (AbdulRahamn Khalid)
+- mouhamadoufadiop (Mouhamadou Fadilou Diop)
+- [serwade](https://learn.zone01dakar.sn/git/serwade) (Serigne Abdou Khadre Wade)
+- [mabalde](https://learn.zone01dakar.sn/git/mabalde) (Mamadou Baldé)
+- [ediallo](https://learn.zone01dakar.sn/git/ediallo) (Ibrahima Diallo)
