@@ -171,4 +171,4 @@ Copy code
 - mouhamadoufadiop (Mouhamadou Fadilou Diop)
 - [serwade](https://learn.zone01dakar.sn/git/serwade) (Serigne Abdou Khadre Wade)
 - [mabalde](https://learn.zone01dakar.sn/git/mabalde) (Mamadou Baldé)
-- [ediallo](https://learn.zone01dakar.sn/git/ediallo) (Ibrahima Diallo)
+- [ediallo](https://learn.zone01dakar.sn/git/ediallo) (	El Hadji Ibrahima Diallo )
