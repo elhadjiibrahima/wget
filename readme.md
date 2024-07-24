@@ -24,7 +24,7 @@ Usage
 
 Your program must have as arguments the link from where you want to download the file, for instance:
 
-$ go run ./cmd/https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/ https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 
 The program should be able to give feedback, displaying the:
 
@@ -40,7 +40,7 @@ The program should be able to give feedback, displaying the:
 
 It should look something like this
 
-$ go run ./cmd/https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/ https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 start at 2017-10-14 03:46:06
 sending request, awaiting response... status 200 OK
 content size: 56370 [~0.06MB]
