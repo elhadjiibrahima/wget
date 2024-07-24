@@ -56,7 +56,7 @@ Your program should be able to handle different flags.
 
     The flag -B should be handled, this flag should download a file immediately to the background and the output should be redirected to a log file. When the program containing this flag is executed it should output : Output will be written to "wget-log". Example:
 
-$ go run ./cmd/-B https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/ -B https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 Output will be written to "wget-log".
 $ cat wget-log
 start at 2017-10-14 03:46:06
@@ -69,7 +69,7 @@ $
 
     Download a file and save it under a different name by using the flag -O followed by the name you wish to save the file, example:
 
-$ go run ./cmd/-O=meme.jpg https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/ -O=meme.jpg https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 start at 2017-10-14 03:46:06
 sending request, awaiting response... status 200 OK
 content size: 56370 [~0.06MB]
@@ -84,7 +84,7 @@ $ ls -l
 
     It should also handle the path to where your file is going to be saved using the flag -P followed by the path to where you want to save the file, example:
 
-$ go run ./cmd/-P=~/Downloads/ -O=meme.jpg https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/ -P=~/Downloads/ -O=meme.jpg https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 start at 2017-10-14 03:46:06
 sending request, awaiting response... status 200 OK
 content size: 56370 [~0.06MB]
@@ -98,7 +98,7 @@ $ ls -l ~/Downloads/meme.jpg
 
     The program should handle speed limit. Basically the program can control the speed of the download by using the flag --rate-limit. If you download a huge file you can limit the speed of your download, preventing the program from using the full possible bandwidth of your connection, example:
 
-$ go run ./cmd/--rate-limit=400k https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
+$ go run ./cmd/ --rate-limit=400k https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
 
 This flag should accept different value types, example: k and M. So you can put the rate limit as rate-limit=200k or rate-limit=2M
 
@@ -132,7 +132,7 @@ Those flags will work based on Follow links. The command wget has several mechan
 
 example:
 
-$ go run ./cmd/--mirror -R=jpg,gif https://example.com
+$ go run ./cmd/ --mirror -R=jpg,gif https://example.com
 
     Directory-Based Limits (--exclude short hand -X)
 
@@ -140,7 +140,7 @@ $ go run ./cmd/--mirror -R=jpg,gif https://example.com
 
 example:
 
-$ go run ./cmd/--mirror -X=/assets,/css https://example.com
+$ go run ./cmd/ --mirror -X=/assets,/css https://example.com
 
 
 Installation
