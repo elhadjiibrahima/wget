@@ -1,6 +1,0 @@
-start at 2024-07-24 10:55:15
-HTTP request sent, awaiting response... 200 OK
-Content-Length: 56370 (55KB)
-saving file to:EMtmPFLWkAA8CIS.jpg
-Downloaded: https://pbs.twimg.com/media/EMtmPFLWkAA8CIS.jpg
-finished at 2024-07-24 10:55:15
