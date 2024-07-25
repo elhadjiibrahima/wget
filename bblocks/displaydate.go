@@ -4,6 +4,10 @@ import (
 	"time"
 )
 
+/*
+Cette fonction utilise le package time pour obtenir la date et l'heure actuelles,
+puis formate et affiche cette information en fonction du paramètre start
+*/
 func DisplayDate(start bool) {
 	dt := time.Now()
 

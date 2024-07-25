@@ -13,12 +13,14 @@ import (
 	"github.com/pkg/errors"
 )
 
+// La fonction DownloadFile qui permet de télécharger un fichier depuis une URL donnée et de l'enregistrer dans un répertoire local.
 func DownloadFile(urlw string, client *http.Client, baseDir string) error {
-	// Extract file name from URL
+	// Extraction du nom du fichier à partir de l'URL
 	u, err := url.Parse(urlw)
 	if err != nil {
 		return errors.Wrap(err, "error parsing URL")
 	}
+	//Gestion des exclusions et rejets
 	if *Exclude != "" {
 		excludes := strings.Split(*Exclude, ",")
 		for _, ex := range excludes {
@@ -38,7 +40,7 @@ func DownloadFile(urlw string, client *http.Client, baseDir string) error {
 			}
 		}
 	}
-
+	//Détection du nom de fichier et extension
 	// If the file name doesn't have an extension, try to detect from the Content-Disposition header
 	if !strings.Contains(fileName, ".") {
 		Resp, err = client.Head(urlw)
@@ -69,7 +71,7 @@ func DownloadFile(urlw string, client *http.Client, baseDir string) error {
 	// 	fileName = "downloaded_file"
 	// }
 
-	// Create directories
+	// Création du répertoire de destination
 	filePath := path.Join(baseDir, path.Dir(u.Path))
 	if _, err := os.Stat(filePath); os.IsNotExist(err) {
 		if err := os.MkdirAll(filePath, 0755); err != nil {
@@ -77,7 +79,7 @@ func DownloadFile(urlw string, client *http.Client, baseDir string) error {
 		}
 	}
 
-	// Create file
+	// Création et vérification du fichier de sortie
 	if _, err := os.Stat(fileName); err == nil {
 		fmt.Println("File already exists:", fileName)
 		return nil
@@ -88,7 +90,7 @@ func DownloadFile(urlw string, client *http.Client, baseDir string) error {
 	}
 	defer OutFile.Close()
 
-	// Define function to download file content
+	//  Téléchargement du contenu du fichier
 	downloadFunc := func() error {
 		Resp, Any_error := client.Get(urlw)
 		if Any_error != nil {
@@ -119,7 +121,7 @@ func DownloadFile(urlw string, client *http.Client, baseDir string) error {
 		return nil
 	}
 
-	// Execute download function
+	// Exécution de la fonction de téléchargement
 	err = downloadFunc()
 	if err != nil {
 		bar.Finish()

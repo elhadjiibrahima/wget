@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+/*Formater une taille de fichier en utilisant des unités lisibles telles que GB, MB, ou KB.*/
 func FormatSize(size int64) string {
 	if size > 1e9 {
 		return fmt.Sprintf("%dGB", size/(1024*1024*1024))
@@ -17,6 +18,7 @@ func FormatSize(size int64) string {
 	}
 }
 
+// Créer une nouvelle instance de RateLimiter avec une limite de vitesse spécifiée pour les téléchargements.
 func NewLimiter(downloadSpeed int) *RateLimiter {
 	return &RateLimiter{
 		limit:  float64(downloadSpeed),
@@ -30,6 +32,7 @@ func (r *RateLimiter) Limit() float64 {
 	return r.limit
 }
 
+// Retourner la vitesse limite actuelle du téléchargeur.
 // Reserve calculates the time required to download a given number of bytes.
 func (r *RateLimiter) Reserve(bytes int) time.Duration {
 	requiredTokens := float64(bytes)
@@ -37,6 +40,10 @@ func (r *RateLimiter) Reserve(bytes int) time.Duration {
 	return timeRequired
 }
 
+/*
+Parser une chaîne de caractères représentant une limite de taux
+(ex. "500K" ou "2M") et retourner la valeur en octets.
+*/
 func ParseRateLimit(rateLimit string) (int, error) {
 	numericPart := rateLimit[:len(rateLimit)-1]
 	suffix := rateLimit[len(rateLimit)-1]

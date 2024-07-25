@@ -9,6 +9,10 @@ import (
 	"golang.org/x/net/html"
 )
 
+/*
+Cette fonction prend en entrée un lecteur (io.Reader) pour lire le contenu HTML,
+un écrivain (io.Writer) pour écrire le contenu modifié, et une URL de base (*url.URL) pour convertir les liens relatifs en liens absolus.
+*/
 func ConvertHTMLLinks(input io.Reader, output io.Writer, baseURL *url.URL) error {
 	doc, err := html.Parse(input)
 	if err != nil {
@@ -18,7 +22,7 @@ func ConvertHTMLLinks(input io.Reader, output io.Writer, baseURL *url.URL) error
 	var f func(*html.Node)
 	f = func(n *html.Node) {
 		if n.Type == html.ElementNode && (n.Data == "a" || n.Data == "link" || n.Data == "img") {
-			// Convert href or src attributes
+			// Convertir les attributs href ou src
 			for i, attr := range n.Attr {
 				if attr.Key == "href" || attr.Key == "src" {
 					u, err := url.Parse(attr.Val)
@@ -30,7 +34,7 @@ func ConvertHTMLLinks(input io.Reader, output io.Writer, baseURL *url.URL) error
 				}
 			}
 		} else if n.Data == "style" {
-			// Convert URLs inside style element
+			// Convertir les URLs à l'intérieur des éléments style
 			cssContent := strings.TrimSpace(getTextContent(n))
 			cssContent = convertURLsInCSS(cssContent, baseURL)
 			setTextContent(n, cssContent)
@@ -50,6 +54,7 @@ func ConvertHTMLLinks(input io.Reader, output io.Writer, baseURL *url.URL) error
 	return nil
 }
 
+/*Fonction auxiliaire qui retourne le texte contenu dans un nœud HTML. */
 func getTextContent(n *html.Node) string {
 	var result string
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
@@ -60,52 +65,54 @@ func getTextContent(n *html.Node) string {
 	return result
 }
 
+/*Fonction auxiliaire qui définit le texte d'un nœud HTML.*/
 func setTextContent(n *html.Node, content string) {
 	n.FirstChild = &html.Node{Type: html.TextNode, Data: content}
 	n.LastChild = n.FirstChild
 }
 
 func convertURLsInCSS(cssContent string, baseURL *url.URL) string {
-	// Regular expression to match URLs within url() declarations
+	// Expression régulière pour trouver les URLs dans les déclarations url()
 	re := regexp.MustCompile(`url\(['"]?([^'"]*?)['"]?\)`)
 
-	// Replace the URLs in the CSS content
+	// Remplacer les URLs dans le contenu CSS
 	modifiedCSS := re.ReplaceAllStringFunc(cssContent, func(match string) string {
-		// Extract the URL from the match
+		// Extraire l'URL de la correspondance
 		urlMatch := re.FindStringSubmatch(match)
 		if len(urlMatch) < 2 {
-			return match // No URL found, return the original match
+			return match // Pas d'URL trouvée, retourner la correspondance
 		}
 		originalURL := urlMatch[1]
 
-		// Resolve the URL relative to the base URL
+		// Résoudre l'URL par rapport à l'URL de base
 		resolvedURL := baseURL.ResolveReference(&url.URL{Path: originalURL}).String()
 
-		// Return the modified URL wrapped in the url() declaration
+		// Retourner l'URL modifiée entourée de la déclaration url()
 		return "url('" + resolvedURL + "')"
 	})
 
 	return modifiedCSS
 }
 
+/*Convertit les URLs dans les déclarations url() dans le contenu HTML.*/
 func ConvertURLs(htmlContent []byte) string {
-	// Convert HTML content to string
+	// Convertir le contenu HTML en chaîne de caractères
 	htmlStr := string(htmlContent)
 
-	// Absolute path to the directory
-	// Define a regex pattern to match the URL values inside url() function
+	// Chemin absolu vers le répertoire
+	// Définir un motif regex pour trouver les valeurs URL à l'intérieur des fonctions url()
 	urlPattern := `url\(['"]?(.*?)['"]?\)`
 
-	// Compile the regex pattern
+	// Compiler le motif regex
 	re := regexp.MustCompile(urlPattern)
 
-	// Replace the matched URL values with the desired value
+	// Remplacer les valeurs URL correspondantes par la valeur souhaitée
 	modifiedHTML := re.ReplaceAllStringFunc(htmlStr, func(match string) string {
-		// Extract the URL value from the matched string
+		//  Extraire la valeur URL de la chaîne correspondante
 		url := re.FindStringSubmatch(match)[1]
 
-		// Replace the URL value with the desired absolute path
-		absolutePath := "/corndog.io" + url // Replace with your working directory path
+		// Remplacer la valeur URL par le chemin absolu souhaité
+		absolutePath := "/corndog.io" + url // Remplacer par le chemin du répertoire de travail
 		return "url('" + absolutePath + "')"
 	})
 

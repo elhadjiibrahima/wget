@@ -5,6 +5,7 @@ import (
 	"strings"
 )
 
+/*La fonction Get_filename extrait le nom de fichier d'une URL en utilisant une expression régulière.*/
 func Get_filename(URL_PATH string) string {
 	// Get the file extension from the URL
 	// ext := filepath.Ext(URL_PATH)
@@ -22,6 +23,6 @@ func Get_filename(URL_PATH string) string {
 	} else {
 		return ""
 	}
-	fileName = strings.ReplaceAll(fileName,".com",".html")
+	fileName = strings.ReplaceAll(fileName, ".com", ".html")
 	return fileName
 }

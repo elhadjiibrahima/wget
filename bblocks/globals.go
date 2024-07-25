@@ -9,6 +9,7 @@ import (
 	"github.com/schollz/progressbar/v3"
 )
 
+// Définit plusieurs variables globales, types et options de ligne de commande pour une application.
 var (
 	ConvertMode          = flag.Bool("convert-links", false, "Convert Links")
 	SilentMode           = flag.Bool("B", false, "Silent Mode")
@@ -29,12 +30,14 @@ var (
 	Resp                 *http.Response
 )
 
+// Structure pour gérer la limitation de la vitesse de téléchargement.
 type RateLimiter struct {
 	limit  float64
 	burst  float64
 	tokens float64
 }
 
+// Interface pour les types qui peuvent écrire des données en utilisant la méthode Write
 type CustomWriter interface {
 	Write([]byte) (int, error)
 }

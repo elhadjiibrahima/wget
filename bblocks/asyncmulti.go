@@ -6,6 +6,10 @@ import (
 	"os"
 )
 
+/*
+Cette fonction lit un fichier ligne par ligne et stocke chaque ligne non vide
+dans un tableau de chaînes de caractères (slice).
+*/
 func GetLinksFromFile() ([]string, error) {
 	pathArr := []string{}
 	f, err := os.Open(*AsyncFileInput)

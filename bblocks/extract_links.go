@@ -11,26 +11,33 @@ import (
 	"golang.org/x/net/html"
 )
 
+// userAgent : Chaîne représentant l'agent utilisateur pour les requêtes HTTP.
 var userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36"
 
+/*
+La fonction Crawl permet de parcourir les pages web d'un domaine donné,
+
+	tout en respectant les règles définies dans le fichier robots.txt,
+	 et en extrayant et suivant les liens présents sur les pages.
+*/
 func Crawl(urlw string, baseURL *url.URL, discovered map[string]bool, client *http.Client, robots *robotstxt.RobotsData) {
 	if _, ok := discovered[urlw]; ok {
 		return
 	}
 
-	// Parse the URL
+	//Analyse de l'URL
 	parsedURL, err := url.Parse(urlw)
 	if err != nil {
 		fmt.Println("Error parsing URL:", err)
 		return
 	}
 
-	// Check if the URL is within the same domain
+	// Vérification du domaine
 	if parsedURL.Host != baseURL.Host {
 		fmt.Println("Skipping external domain:", urlw)
 		return
 	}
-
+	//Création et envoi de la requête HTTP
 	req, err := http.NewRequest("GET", urlw, nil)
 	if err != nil {
 		fmt.Println("Error creating request:", err)
@@ -49,15 +56,15 @@ func Crawl(urlw string, baseURL *url.URL, discovered map[string]bool, client *ht
 		fmt.Println("Error:", Resp.Status)
 		return
 	}
-
+	//Vérification des règles robots.txt :
 	if !robots.TestAgent(urlw, userAgent) {
 		fmt.Println("Robot not allowed to crawl:", urlw)
 		return
 	}
-
+	//Marquage de l'URL comme découverte et affichage
 	discovered[urlw] = true
 	fmt.Println(urlw)
-
+	//Analyse et extraction des liens HTML
 	tokenizer := html.NewTokenizer(Resp.Body)
 
 	for {
@@ -90,21 +97,25 @@ func Crawl(urlw string, baseURL *url.URL, discovered map[string]bool, client *ht
 					tokenType := tokenizer.Next()
 					if tokenType == html.ErrorToken || tokenType == html.EndTagToken && tokenizer.Token().Data == "style" {
 						break
-						} else if tokenType == html.TextToken {
-							cssContent := tokenizer.Token().Data
-							cssURLs := ExtractURLsFromCSS(cssContent, baseURL)
-							for _, cssURL := range cssURLs {
-								Crawl(cssURL, baseURL, discovered, client, robots)
-							}
+					} else if tokenType == html.TextToken {
+						cssContent := tokenizer.Token().Data
+						cssURLs := ExtractURLsFromCSS(cssContent, baseURL)
+						for _, cssURL := range cssURLs {
+							Crawl(cssURL, baseURL, discovered, client, robots)
 						}
 					}
 				}
 			}
 		}
 	}
+}
 
-	func ExtractURLsFromCSS(cssContent string, baseURL *url.URL) []string {
-		var urls []string
+/*
+Cette fonction extrait les URLs des déclarations url() dans le contenu CSS
+et les résout par rapport à l'URL de base si nécessaire.
+*/
+func ExtractURLsFromCSS(cssContent string, baseURL *url.URL) []string {
+	var urls []string
 
 	// Regular expression to match URLs within url() declarations
 	re := regexp.MustCompile(`url\(['"]?([^'"]*?)['"]?\)`)
